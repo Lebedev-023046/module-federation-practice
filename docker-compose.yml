@@ -1,0 +1,32 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres_tasks
+    restart: always
+    environment:
+      POSTGRES_USER: swan
+      POSTGRES_PASSWORD: 12345678
+      POSTGRES_DB: tasks_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: nest_backend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://swan:12345678@postgres:5432/tasks_db?schema=public
+    depends_on:
+      - postgres
+    volumes:
+      - ./backend:/app
+    command: npm run start:dev
+
+volumes:
+  postgres_data:
