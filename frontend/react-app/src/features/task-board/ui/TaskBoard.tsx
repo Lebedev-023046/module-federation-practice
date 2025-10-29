@@ -3,7 +3,6 @@ import { Button } from '@shared/ui/button'
 import { Input } from '@shared/ui/input'
 import { Task } from './Task'
 import { TaskFilters } from './TaskFilter'
-import { TaskSortSelect } from './TaskSort'
 
 export function TaskBoard() {
 	return (
@@ -16,7 +15,7 @@ export function TaskBoard() {
 				>
 					<Input placeholder='search' />
 					<TaskFilters />
-					<TaskSortSelect />
+					{/* <TaskSortSelect /> */}
 					<Button className='shrink'>Add</Button>
 				</div>
 			</div>
