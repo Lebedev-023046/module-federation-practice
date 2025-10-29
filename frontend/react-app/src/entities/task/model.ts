@@ -9,9 +9,9 @@ export interface TaskDTO {
 }
 
 /*******  ce73638f-c4c2-4f07-8196-46b43106152f  *******/
-export type CreateTask = Pick<
+export type CreateTaskPayload = Pick<
 	TaskDTO,
 	'title' | 'description' | 'priority' | 'completed'
 >
 
-export type UpdateTask = Partial<CreateTask>
+export type UpdateTaskPayload = Partial<CreateTaskPayload>

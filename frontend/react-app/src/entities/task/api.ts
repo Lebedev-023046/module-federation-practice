@@ -1,3 +1,52 @@
+import { ENDPOINTS, type GetAllTasksParams } from '@shared/api/endpoints'
+import { api } from '@shared/api/instance'
+import type { CreateTaskPayload, UpdateTaskPayload } from './model'
+
 export const tasksApi = {
-	get: async () => await fetch('https://jsonplaceholder.typicode.com/todos/1')
+	getAllTasks: async (payload: GetAllTasksParams) => {
+		try {
+			return api
+				.get(ENDPOINTS.getAllTasks(), {
+					params: {
+						search: payload?.search,
+						completed: payload?.completed
+					}
+				})
+				.then(res => res.data)
+		} catch (error) {
+			throw error
+		}
+	},
+
+	getOneTask: async (id: number) => {
+		try {
+			return api.get(ENDPOINTS.getTask(id)).then(res => res.data)
+		} catch (error) {
+			throw error
+		}
+	},
+
+	createTask: async (payload: CreateTaskPayload) => {
+		try {
+			return api.post(ENDPOINTS.createTask(), payload).then(res => res.data)
+		} catch (error) {
+			throw error
+		}
+	},
+
+	updateTask: async (id: number, payload: UpdateTaskPayload) => {
+		try {
+			return api.put(ENDPOINTS.updateTask(id), payload).then(res => res.data)
+		} catch (error) {
+			throw error
+		}
+	},
+
+	deleteTask: async (id: number) => {
+		try {
+			return api.delete(ENDPOINTS.deleteTask(id)).then(res => res.data)
+		} catch (error) {
+			throw error
+		}
+	}
 }
