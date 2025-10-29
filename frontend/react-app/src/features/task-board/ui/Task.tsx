@@ -1,28 +1,13 @@
 import type { TaskDTO } from '@entities/task/model'
-import { getRandomLightBgColor } from '@shared/helpers/getRandomBgColor'
+import { getLightBgColor } from '@shared/helpers/getRandomBgColor'
 
-// 	id: number
-// title: string
-// description?: string
-// priority: number
-// completed: boolean
-// createdAt: Date
-// updatedAt: Date
-
-export function Task({
-	title,
-	description,
-	priority,
-	completed,
-	createdAt,
-	updatedAt
-}: TaskDTO) {
-	const color = getRandomLightBgColor()
-
-	// console.log({ color })
+export function Task({ title, priority }: TaskDTO) {
+	const color = getLightBgColor(priority)
 
 	return (
-		<div className={`${color} rounded-2xl flex flex-col p-4`}>
+		<div
+			className={`flex-1 basis-[200px] max-h-50 max-w-full  rounded-2xl flex flex-col p-4 ${color} md:max-w-1/2`}
+		>
 			<h2 className='text-3xl font-bold'>Task</h2>
 			<div className='flex flex-col'>
 				<div className='flex justify-between'>
