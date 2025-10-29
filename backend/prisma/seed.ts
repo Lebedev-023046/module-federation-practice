@@ -27,7 +27,7 @@ async function main() {
     {
       title: 'Refactor backend',
       description: 'Add Swagger, validation, and better error handling',
-      priority: 4,
+      priority: 1,
       completed: false,
     },
   ];

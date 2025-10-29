@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -13,8 +14,8 @@ import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { TaskService } from './task.service';
 
-@ApiTags('task')
-@Controller('task')
+@ApiTags('tasks')
+@Controller('tasks')
 export class TaskController {
   constructor(private readonly tasksService: TaskService) {}
 
@@ -26,14 +27,11 @@ export class TaskController {
 
   @Get()
   @ApiResponse({ status: 200, description: 'List of all tasks' })
-  findAll({
-    search = '',
-    completed,
-  }: {
-    search?: string;
-    completed?: boolean;
-  }) {
-    return this.tasksService.findAll({ search, completed });
+  findAll(
+    @Query('search') search?: string,
+    @Query('completed') completed?: boolean,
+  ) {
+    return this.tasksService.findAll({ search: search ?? '', completed });
   }
 
   @Get(':id')

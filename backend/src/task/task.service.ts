@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
@@ -18,27 +19,27 @@ export class TaskService {
   }
 
   async findAll({
-    search = '',
+    search,
     completed,
   }: {
     search?: string;
     completed?: boolean;
   }) {
     try {
-      return await this.prisma.task.findMany({
-        where: {
-          ...(search
-            ? {
-                OR: [
-                  { title: { contains: search, mode: 'insensitive' } },
-                  { description: { contains: search, mode: 'insensitive' } },
-                ],
-              }
-            : {}),
-          ...(completed !== undefined ? { completed } : {}),
-        },
-        orderBy: { createdAt: 'desc' },
-      });
+      const where: Prisma.TaskWhereInput = {};
+
+      if (search) {
+        where.OR = [
+          { title: { contains: search, mode: 'insensitive' } },
+          { description: { contains: search, mode: 'insensitive' } },
+        ];
+      }
+
+      if (completed !== undefined) {
+        where.completed = completed;
+      }
+
+      return await this.prisma.task.findMany({ where });
     } catch (error) {
       throw error;
     }
