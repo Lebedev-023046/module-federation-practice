@@ -8,7 +8,7 @@ export interface TaskDTO {
 	updatedAt: Date
 }
 
-/*******  ce73638f-c4c2-4f07-8196-46b43106152f  *******/
+export type Task = Partial<TaskDTO>
 export type CreateTaskPayload = Pick<
 	TaskDTO,
 	'title' | 'description' | 'priority' | 'completed'

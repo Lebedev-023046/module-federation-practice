@@ -2,6 +2,7 @@ import { TaskBoard } from '@features/task-board/ui/TaskBoard'
 import { Header } from '@shared/ui/layout/Header'
 import { useEffect } from 'react'
 import { ToastContainer } from 'react-toastify'
+import { Providers } from './Providers'
 
 function App() {
 	useEffect(() => {
@@ -16,11 +17,13 @@ function App() {
 	}, [])
 
 	return (
-		<div className='flex flex-col'>
-			<Header />
-			<TaskBoard />
-			<ToastContainer />
-		</div>
+		<Providers>
+			<div className='flex flex-col'>
+				<Header />
+				<TaskBoard />
+				<ToastContainer />
+			</div>
+		</Providers>
 	)
 }
 
