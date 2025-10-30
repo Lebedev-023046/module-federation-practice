@@ -32,8 +32,6 @@ export class TaskController {
     @Query('search') search?: string | undefined,
     @Query('completed', new ParseBooleanPipe()) completed?: boolean | undefined,
   ) {
-    console.log({ search });
-
     return this.tasksService.findAll({ search: search ?? '', completed });
   }
 
