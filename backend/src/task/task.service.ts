@@ -23,7 +23,7 @@ export class TaskService {
     completed,
   }: {
     search?: string;
-    completed?: boolean;
+    completed?: boolean | undefined;
   }) {
     try {
       const where: Prisma.TaskWhereInput = {};

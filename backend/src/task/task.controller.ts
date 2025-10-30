@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ParseBooleanPipe } from 'src/common/pipes/parse-boolean.pipe';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { TaskService } from './task.service';
@@ -28,9 +29,11 @@ export class TaskController {
   @Get()
   @ApiResponse({ status: 200, description: 'List of all tasks' })
   findAll(
-    @Query('search') search?: string,
-    @Query('completed') completed?: boolean,
+    @Query('search') search?: string | undefined,
+    @Query('completed', new ParseBooleanPipe()) completed?: boolean | undefined,
   ) {
+    console.log({ search });
+
     return this.tasksService.findAll({ search: search ?? '', completed });
   }
 
