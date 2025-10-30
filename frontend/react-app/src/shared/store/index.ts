@@ -5,8 +5,7 @@ import { useSelector, type TypedUseSelectorHook } from 'react-redux'
 export const store = configureStore({
 	reducer: {
 		tasks: tasksReducer
-	},
-	devTools: true
+	}
 })
 
 export type RootState = ReturnType<typeof store.getState>

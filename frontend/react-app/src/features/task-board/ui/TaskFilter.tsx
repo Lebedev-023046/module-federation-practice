@@ -1,4 +1,4 @@
-import Select from 'react-select'
+import Select, { type Props as SelectProps } from 'react-select'
 
 export const options = [
 	{ value: undefined, label: 'All tasks' },
@@ -6,7 +6,7 @@ export const options = [
 	{ value: false, label: 'In progress' }
 ]
 
-export function TaskFilters() {
+export function TaskFilters(props: SelectProps) {
 	return (
 		<div>
 			<Select
@@ -15,6 +15,7 @@ export function TaskFilters() {
 				classNames={{
 					control: () => '!border-blue-200'
 				}}
+				{...props}
 			/>
 		</div>
 	)

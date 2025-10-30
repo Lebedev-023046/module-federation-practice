@@ -1,11 +1,17 @@
 import type { Task } from '@entities/task/model'
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
+type StatusValue = boolean | undefined
+type StatusLabel = 'All tasks' | 'Completed' | 'In progress'
+
 export type SearchQuery = string
-export type FilterStatus = undefined | boolean
+export type FilterStatus = {
+	value: StatusValue
+	label: StatusLabel
+}
 
 interface TaskState {
-	tasks: Task[]
+	taskItems: Task[]
 	filters: {
 		searchQuery: SearchQuery
 		status: FilterStatus
@@ -13,8 +19,8 @@ interface TaskState {
 }
 
 const initialState: TaskState = {
-	tasks: [],
-	filters: { searchQuery: '', status: undefined }
+	taskItems: [],
+	filters: { searchQuery: '', status: { value: undefined, label: 'All tasks' } }
 }
 
 export const taskSlice = createSlice({
@@ -24,23 +30,25 @@ export const taskSlice = createSlice({
 		setSearchQuery: (state, action: PayloadAction<string>) => {
 			state.filters.searchQuery = action.payload
 		},
-		setFulterStatus: (state, action: PayloadAction<boolean | undefined>) => {
+		setFilterStatus: (state, action: PayloadAction<FilterStatus>) => {
 			state.filters.status = action.payload
 		},
 		setTasks: (state, action: PayloadAction<Task[]>) => {
-			state.tasks = action.payload
+			state.taskItems = action.payload
 		},
 		addTask: (state, action: PayloadAction<Task>) => {
-			state.tasks.push(action.payload)
+			state.taskItems.push(action.payload)
 		},
 		updateTask: (state, action: PayloadAction<Task>) => {
 			const { id, ...rest } = action.payload
-			state.tasks = state.tasks.map(task => {
+			state.taskItems = state.taskItems.map(task => {
 				return task.id === id ? { ...task, ...rest } : task
 			})
 		},
 		deleteTask: (state, action: PayloadAction<number>) => {
-			state.tasks = state.tasks.filter(task => task.id !== action.payload)
+			state.taskItems = state.taskItems.filter(
+				task => task.id !== action.payload
+			)
 		}
 	}
 })
