@@ -45,7 +45,7 @@ export const tasksApi = {
 		}
 	},
 
-	deleteTask: async ({ id }: { id: number }) => {
+	deleteTask: async (id: number) => {
 		try {
 			return api.delete(ENDPOINTS.deleteTask(id)).then(res => res.data)
 		} catch (error) {
