@@ -39,7 +39,12 @@ export class TaskService {
         where.completed = completed;
       }
 
-      return await this.prisma.task.findMany({ where });
+      return await this.prisma.task.findMany({
+        where,
+        orderBy: {
+          id: 'desc',
+        },
+      });
     } catch (error) {
       throw error;
     }
