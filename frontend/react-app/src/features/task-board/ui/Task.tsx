@@ -1,11 +1,17 @@
 import type { TaskDTO } from '@entities/task/model'
 import { getLightBgColor } from '@shared/helpers/getRandomBgColor'
 import clsx from 'clsx'
+import { useUpdateTask } from '../hooks/useUpdateTask'
 
-export function Task({ title, completed, priority }: TaskDTO) {
+export function Task({ id, title, completed, priority }: TaskDTO) {
 	const color = getLightBgColor(priority)
+	const completedColor = completed ? 'bg-green-200' : 'bg-red-200'
 
-	const completedColor = completed ? 'bg-green-100' : 'bg-red-200'
+	const { mutate: updateTask } = useUpdateTask()
+
+	const payload = {
+		completed: !completed
+	}
 
 	return (
 		<div
@@ -18,15 +24,15 @@ export function Task({ title, completed, priority }: TaskDTO) {
 					<p className='font-bold'>{priority}</p>
 				</div>
 				<div>
-					<p
+					<button
+						onClick={() => updateTask({ id, payload })}
 						className={clsx(
-							'inline-block rounded-md font-bold p-2',
+							'inline-block rounded-md font-bold p-2 cursor-pointer',
 							completedColor
 						)}
 					>
 						{completed ? 'Completed' : 'Not completed'}
-					</p>
-					<p>{}</p>
+					</button>
 				</div>
 			</div>
 		</div>

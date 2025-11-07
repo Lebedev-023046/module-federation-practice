@@ -14,4 +14,7 @@ export type CreateTaskPayload = Pick<
 	'title' | 'description' | 'priority' | 'completed'
 >
 
-export type UpdateTaskPayload = Partial<CreateTaskPayload>
+export type UpdateTaskPayload = {
+	id: number
+	payload: Partial<CreateTaskPayload>
+}

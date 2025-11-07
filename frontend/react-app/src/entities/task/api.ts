@@ -37,9 +37,9 @@ export const tasksApi = {
 		}
 	},
 
-	updateTask: async ({ id }: { id: number }, payload: UpdateTaskPayload) => {
+	updateTask: async ({ id, payload }: UpdateTaskPayload) => {
 		try {
-			return api.put(ENDPOINTS.updateTask(id), payload).then(res => res.data)
+			return api.patch(ENDPOINTS.updateTask(id), payload).then(res => res.data)
 		} catch (error) {
 			throw error
 		}
@@ -55,9 +55,15 @@ export const tasksApi = {
 
 	// query options
 
-	getAllTasksQueryOptions: (payload: GetAllTasksParams) => {
+	getAllTasksQueryOptions: (payload?: GetAllTasksParams) => {
+		const queryKey = [
+			...tasksApi.baseTasksKey,
+			'all',
+			...Object.values(payload || {})
+		]
+
 		return queryOptions<TaskDTO[]>({
-			queryKey: [tasksApi.baseTasksKey, payload],
+			queryKey,
 			queryFn: () => tasksApi.getAllTasks(payload)
 		})
 	}
