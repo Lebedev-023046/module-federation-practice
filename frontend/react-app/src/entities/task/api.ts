@@ -1,7 +1,7 @@
 import { ENDPOINTS, type GetAllTasksParams } from '@shared/api/endpoints'
 import { api } from '@shared/api/instance'
 import { queryOptions } from '@tanstack/react-query'
-import type { CreateTaskPayload, UpdateTaskPayload } from './model'
+import type { CreateTaskPayload, TaskDTO, UpdateTaskPayload } from './model'
 
 export const tasksApi = {
 	baseTasksKey: ['tasks'],
@@ -12,7 +12,7 @@ export const tasksApi = {
 				.get(ENDPOINTS.getAllTasks(), {
 					params: {
 						search: payload?.search,
-						completed: payload?.completed
+						completed: payload?.status
 					}
 				})
 				.then(res => res.data)
@@ -56,8 +56,8 @@ export const tasksApi = {
 	// query options
 
 	getAllTasksQueryOptions: (payload: GetAllTasksParams) => {
-		return queryOptions({
-			queryKey: [tasksApi.baseTasksKey, payload.search, payload.completed],
+		return queryOptions<TaskDTO[]>({
+			queryKey: [tasksApi.baseTasksKey, payload],
 			queryFn: () => tasksApi.getAllTasks(payload)
 		})
 	}

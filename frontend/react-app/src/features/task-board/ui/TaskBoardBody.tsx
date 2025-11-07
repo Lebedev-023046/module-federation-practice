@@ -1,5 +1,4 @@
 import { tasksApi } from '@entities/task/api'
-import type { TaskDTO } from '@entities/task/model'
 import { useDebounce } from '@shared/hooks/useDebounce'
 import { useAppSelector } from '@shared/store'
 import { useQuery } from '@tanstack/react-query'
@@ -10,13 +9,11 @@ export function TaskBoardBody() {
 	const status = useAppSelector(state => state.tasks.filters.status)
 	const debouncedSearchQuery = useDebounce<string>(searchQuery, 1000)
 
-	const { data, error, isLoading } = useQuery<TaskDTO[]>({
-		queryKey: ['tasks', debouncedSearchQuery, status.value],
-		queryFn: () =>
-			tasksApi.getAllTasks({
-				search: debouncedSearchQuery,
-				completed: status?.value
-			})
+	const { data, error, isLoading } = useQuery({
+		...tasksApi.getAllTasksQueryOptions({
+			search: debouncedSearchQuery,
+			status: status.value
+		})
 	})
 
 	if (error) {

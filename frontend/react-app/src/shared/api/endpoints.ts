@@ -1,6 +1,6 @@
 export type GetAllTasksParams = {
 	search?: string
-	completed?: boolean
+	status?: boolean
 }
 
 export const ENDPOINTS = {

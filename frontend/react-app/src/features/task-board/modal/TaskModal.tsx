@@ -1,4 +1,7 @@
+import type { CreateTaskPayload } from '@entities/task/model'
 import { Modal } from '@shared/ui/modal'
+import { TaskForm } from '../form/TaskForm'
+import { useCreateTask } from '../hooks/useCreateTask'
 
 interface TaskModalProps {
 	isOpen?: boolean
@@ -8,6 +11,14 @@ interface TaskModalProps {
 }
 
 export function TaskModal({ isOpen, onVisibilityChange }: TaskModalProps) {
+	const { mutate: createTask } = useCreateTask()
+
+	const onSubmit = (formData: CreateTaskPayload) => {
+		console.log({ formData })
+		createTask(formData)
+		onVisibilityChange?.(false)
+	}
+
 	return (
 		<Modal
 			isOpen={isOpen}
@@ -19,7 +30,7 @@ export function TaskModal({ isOpen, onVisibilityChange }: TaskModalProps) {
 				title='Create task'
 				description='Add new task to your list'
 			>
-				Some Content
+				<TaskForm onSubmit={onSubmit} />
 			</Modal.Content>
 		</Modal>
 	)
