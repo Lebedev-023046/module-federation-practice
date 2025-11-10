@@ -1,11 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Header from '@shared/ui/layout/header.vue'
+</script>
 
 <template>
-  <h1 class="text-3xl">You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <Header />
 </template>
 
 <style scoped></style>
