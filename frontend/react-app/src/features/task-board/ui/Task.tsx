@@ -18,7 +18,7 @@ export function Task({ id, title, completed, priority }: TaskDTO) {
 
 	return (
 		<div
-			className={`flex flex-col justify-between  flex-1 basis-[200px] minh-20 max-h-60 scroll-auto max-w-full  rounded-2xl p-4 ${color} md:max-w-1/2`}
+			className={`flex flex-col justify-between  flex-1 basis-[200px] min-h-20 max-h-60 scroll-auto max-w-full  rounded-2xl p-4 ${color} md:max-w-1/2`}
 		>
 			<div className='flex justify-between items-center gap-4'>
 				<h2 className='text-2xl font-bold'>{title}</h2>
