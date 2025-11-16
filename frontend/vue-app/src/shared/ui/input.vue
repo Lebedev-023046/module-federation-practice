@@ -3,7 +3,7 @@
     <label v-if="label" :for="id">{{ label }}</label>
 
     <input
-      v-model="searchQuery"
+      v-model="innerValue"
       class="border border-blue-200 outline-blue-200 rounded-md px-4 py-2 h-full"
       :id="id"
       v-bind="bindAttrs"
@@ -12,27 +12,28 @@
 </template>
 
 <script setup lang="ts">
-import { useTaskStore } from '@features/task-board/store'
 import { computed, useAttrs, type InputHTMLAttributes } from 'vue'
 
 interface InputProps {
   label?: string
+  modelValue?: string
 }
 
 const props = defineProps<InputProps>()
+const emit = defineEmits<{
+  'update:modelValue': [value: string]
+}>()
+
 const attrs = useAttrs() as InputHTMLAttributes
 
-const { filters, setSearchQuery } = useTaskStore()
-
-const searchQuery = computed({
-  get: () => filters.searchQuery,
-  set: (value) => setSearchQuery(value),
+const innerValue = computed({
+  get: () => props.modelValue ?? '',
+  set: (value: string) => emit('update:modelValue', value),
 })
 
 const bindAttrs = computed(() => {
   return {
     ...attrs,
-    ...props,
   }
 })
 
