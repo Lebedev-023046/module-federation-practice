@@ -1,12 +1,13 @@
 import { ENDPOINTS, type GetAllTasksParams } from '@shared/api/endpoints'
 import { api } from '@shared/api/instance'
 import { queryOptions } from '@tanstack/vue-query'
+import { computed, unref, type MaybeRef } from 'vue'
 import type { CreateTaskPayload, TaskDTO, UpdateTaskPayload } from './model'
 
 export const tasksApi = {
   baseTasksKey: ['tasks'],
 
-  getAllTasks: async (payload: GetAllTasksParams = {}) => {
+  getAllTasks: async (payload: MaybeRef = {}) => {
     try {
       return api
         .get(ENDPOINTS.getAllTasks(), {
@@ -55,12 +56,19 @@ export const tasksApi = {
 
   // query options
 
-  getAllTasksQueryOptions: (payload?: GetAllTasksParams) => {
-    const queryKey = [...tasksApi.baseTasksKey, 'all', ...Object.values(payload || {})]
+  getAllTasksQueryOptions: (payload?: MaybeRef<GetAllTasksParams>) => {
+    const params = computed(() => unref(payload) ?? {})
+
+    const queryKey = computed(() => [
+      ...tasksApi.baseTasksKey,
+      'all',
+      params.value.search,
+      params.value.status,
+    ])
 
     return queryOptions<TaskDTO[]>({
       queryKey,
-      queryFn: () => tasksApi.getAllTasks(payload),
+      queryFn: () => tasksApi.getAllTasks(params.value),
     })
   },
 }
