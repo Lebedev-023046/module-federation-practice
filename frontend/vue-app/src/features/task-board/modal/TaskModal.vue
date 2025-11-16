@@ -13,12 +13,14 @@
 import type { CreateTaskPayload } from '@entities/task/model'
 import Modal from '@shared/ui/modal.vue'
 import { inject, ref } from 'vue'
+import { useCreateTask } from '../composables/useCreateTask'
 import { isModalOpenKey, onModalCloseKey } from '../constants'
 import TaskForm from '../form/TaskForm.vue'
 
+const { mutate: createTask } = useCreateTask()
+
 const onSubmit = (formData: CreateTaskPayload) => {
-  console.log({ formData })
-  // createTask(formData) // TODO
+  createTask(formData)
   onModalClose?.()
 }
 

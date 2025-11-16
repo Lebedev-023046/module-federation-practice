@@ -2,7 +2,7 @@
   <div :class="containerClasses">
     <div class="flex justify-between items-center gap-4">
       <h2 class="text-2xl font-bold">{{ title }}</h2>
-      <button>
+      <button class="shrink-0 h-6 w-6 mt-1 self-baseline cursor-pointer" @click="handleDeleteTask">
         <TrashIcon className="text-2xl cursor-pointer" />
       </button>
     </div>
@@ -12,7 +12,7 @@
         <p class="font-bold">{{ priority }}</p>
       </div>
       <div>
-        <button :class="buttonClasses">
+        <button @click="handleUpdateTask" :class="buttonClasses">
           {{ completed ? 'Completed' : 'Not completed' }}
         </button>
       </div>
@@ -25,11 +25,16 @@ import type { Task } from '@entities/task/model'
 import { TrashIcon } from '@heroicons/vue/16/solid'
 import { getLightBgColor } from '@shared/helpers/getRandomBgColor'
 import { computed } from 'vue'
+import { useDeleteTask } from '../composables/useDeleteTask'
+import { useUpdateTask } from '../composables/useUpdateTask'
 
 const { id, title, completed, priority } = defineProps<Task>()
 
 const color = getLightBgColor(priority)
-const completedColor = completed ? 'bg-green-200' : 'bg-red-200'
+
+const completedColor = computed(() => {
+  return completed ? 'bg-green-200' : 'bg-red-200'
+})
 
 const containerClasses = computed(() => {
   return [
@@ -39,11 +44,25 @@ const containerClasses = computed(() => {
 })
 
 const buttonClasses = computed(() => {
-  return ['inline-block rounded-md font-bold p-2 cursor-pointer', completedColor]
+  return ['inline-block rounded-md font-bold p-2 cursor-pointer', completedColor.value]
 })
 
-const payload = {
-  completed: !completed,
+const { mutate: updateTask } = useUpdateTask()
+const { mutate: deleteTask } = useDeleteTask()
+
+const updatePayload = computed(() => {
+  return {
+    completed: !completed,
+  }
+})
+
+const handleUpdateTask = () => {
+  if (!id) return
+  updateTask({ id, payload: updatePayload.value })
+}
+const handleDeleteTask = () => {
+  if (!id) return
+  deleteTask(id)
 }
 </script>
 
