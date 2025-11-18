@@ -1,45 +1,51 @@
-import federation from '@originjs/vite-plugin-federation'
+import { federation } from '@module-federation/vite'
 import react from '@vitejs/plugin-react'
+
 import { defineConfig } from 'vite'
+
+const deps = require('./package.json').dependencies
 
 export default defineConfig({
 	server: {
 		port: 5173,
-		cors: true,
-		hmr: {
-			protocol: 'ws',
-			host: 'localhost',
-			clientPort: 5173,
-			overlay: false
-		}
+		cors: true
 	},
 	plugins: [
 		react(),
 		federation({
 			name: 'host',
 			remotes: {
-				react_app: 'http://localhost:5174/assets/remoteEntry.js'
-				// vue_app: 'http://localhost:5175/assets/remoteEntry.js'
+				react_app: {
+					type: 'module',
+					name: 'react_app',
+					entry: 'http://localhost:5174/remoteEntry.js',
+					entryGlobalName: 'react_app',
+					shareScope: 'default'
+				},
+				vue_app: {
+					type: 'module',
+					name: 'vue_app',
+					entry: 'http://localhost:5175/remoteEntry.js',
+					entryGlobalName: 'vue_app',
+					shareScope: 'default'
+				}
 			},
 			shared: {
 				react: {
 					singleton: true,
-					eager: false,
-					requiredVersion: '^19.1.1'
-				} as any,
+					requiredVersion: deps.react
+				},
 				'react-dom': {
 					singleton: true,
-					eager: false,
-					requiredVersion: '^19.1.1'
-				} as any
+					requiredVersion: deps['react-dom']
+				}
 			}
 		})
 	],
 	build: {
-		target: 'esnext',
-		sourcemap: false,
 		modulePreload: false,
-		minify: true,
-		cssCodeSplit: true
+		target: 'esnext',
+		minify: false,
+		cssCodeSplit: false
 	}
 })

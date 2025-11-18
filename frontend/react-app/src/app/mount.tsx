@@ -1,19 +1,25 @@
+// react_app/src/app/mount.tsx
+import { TaskBoard } from '@features/task-board/ui/TaskBoard'
 import ReactDOM from 'react-dom/client'
-import App from './App'
-
-import './main.css'
+import { Providers } from './Providers'
 
 let root: ReactDOM.Root | null = null
 
-export function mount({ container }: { container: HTMLElement }) {
+function mount(container: HTMLElement) {
 	if (root) return
+
 	root = ReactDOM.createRoot(container)
-	root.render(<App />)
+	root.render(
+		<Providers>
+			<TaskBoard />
+		</Providers>
+	)
 }
 
-export function unmount() {
-	if (root) {
-		root.unmount()
-		root = null
-	}
+function unmount() {
+	if (!root) return
+	root.unmount()
+	root = null
 }
+
+export default { mount, unmount }

@@ -1,7 +1,10 @@
-import federation from '@originjs/vite-plugin-federation'
+// import federation from '@originjs/vite-plugin-federation'
+import { federation } from '@module-federation/vite'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
+
+const deps = require('./package.json').dependencies
 
 export default defineConfig({
 	server: {
@@ -11,32 +14,29 @@ export default defineConfig({
 	plugins: [
 		react(),
 		federation({
-			mode: 'development',
 			name: 'react_app',
 			filename: 'remoteEntry.js',
 			exposes: {
-				'./App': './src/app/mount.tsx'
+				'./App': './src/app/mount.tsx',
+				'./Button': './src/shared/ui/button'
 			},
 			shared: {
 				react: {
 					singleton: true,
-					eager: false,
-					requiredVersion: '^19.1.1'
-				} as any,
+					requiredVersion: deps.react
+				},
 				'react-dom': {
 					singleton: true,
-					eager: false,
-					requiredVersion: '^19.1.1'
-				} as any
+					requiredVersion: deps['react-dom']
+				}
 			}
 		}),
 		tsconfigPaths()
 	],
 	build: {
-		target: 'esnext',
-		sourcemap: false,
 		modulePreload: false,
-		minify: true,
-		cssCodeSplit: true
+		target: 'esnext',
+		minify: false,
+		cssCodeSplit: false
 	}
 })

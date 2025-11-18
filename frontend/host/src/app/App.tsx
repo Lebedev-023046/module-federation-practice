@@ -1,20 +1,20 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
-
-import ReactPage from '../pages/ReactDashboard/dashboard'
-// import VuePage from '../pages/VueDashboard/dashboard'
+import { ReactPage } from '../pages/ReactDashboard'
+import { VuePage } from '../pages/VueDashboard'
+import { Header } from '../shared/ui/layout'
 
 function App() {
 	return (
-		<div className='m-4'>
-			{/* <NavTab /> */}
-			<div>
-				<Routes>
-					<Route path='/' element={<Navigate to='/react' />} />
-					<Route path='/react' element={<ReactPage />} />
-					{/* <Route path='/vue' element={<VuePage />} /> */}
-				</Routes>
-			</div>
-		</div>
+		<>
+			<Header />
+
+			<Routes>
+				<Route path='/' element={<Navigate to='/react' />} />
+				<Route path='/react' element={<ReactPage />} />
+				{/* <Route path='/react' element={<div>React</div>} /> */}
+				<Route path='/vue' element={<VuePage />} />
+			</Routes>
+		</>
 	)
 }
 

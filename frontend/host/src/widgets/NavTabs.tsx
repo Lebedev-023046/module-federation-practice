@@ -1,34 +1,42 @@
 import { Link, useLocation } from 'react-router-dom'
 
+const pages = [
+	{ path: '/react', label: 'React' },
+	{ path: '/vue', label: 'Vue' }
+]
+
 export function NavTabs() {
-	const loc = useLocation()
-	const current = loc.pathname
-	const tab = (path: string, label: string) => (
-		<Link
-			to={path}
-			style={{
-				padding: '8px 12px',
-				borderBottom:
-					current === path ? '2px solid #007bff' : '2px solid transparent',
-				textDecoration: 'none',
-				color: current === path ? '#007bff' : '#333'
-			}}
-		>
-			{label}
-		</Link>
-	)
+	const { pathname } = useLocation()
 
 	return (
-		<div
-			style={{
-				display: 'flex',
-				gap: 12,
-				borderBottom: '1px solid #eee',
-				padding: 12
-			}}
-		>
-			{tab('/react', 'React')}
-			{tab('/vue', 'Vue')}
+		<div className='flex gap-6'>
+			{pages.map(({ path, label }) => {
+				const isActive = pathname === path
+
+				return (
+					<Link
+						key={path}
+						to={path}
+						className={`
+              relative text-lg font-medium transition-colors
+              ${
+								isActive
+									? 'text-primary-700'
+									: 'text-neutral-500 hover:text-neutral-700'
+							}
+            `}
+					>
+						{label}
+
+						<span
+							className={`
+                absolute left-0 -bottom-0.5 h-[2px] w-full bg-black/50 transition-all duration-300
+                ${isActive ? 'opacity-100' : 'opacity-0'}
+              `}
+						/>
+					</Link>
+				)
+			})}
 		</div>
 	)
 }

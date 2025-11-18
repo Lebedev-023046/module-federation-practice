@@ -1,9 +1,9 @@
 <template>
-  <Teleport to="#app-modal">
+  <Teleport to="#modal-root">
     <div v-if="isOpen">
       <div class="fixed z-10 top-0 left-0 w-full h-full bg-black/50"></div>
       <div
-        class="fixed top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white z-100 flex flex-col gap-4 p-6 rounded-lg max-w-1/2 min-w-1/3"
+        class="fixed top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white z-50 flex flex-col gap-4 p-6 rounded-lg max-w-1/2 min-w-1/3"
       >
         <XMarkIcon
           @click="emit('close')"

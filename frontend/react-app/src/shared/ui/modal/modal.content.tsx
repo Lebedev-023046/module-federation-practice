@@ -22,7 +22,7 @@ export function ModalContent({
 			<div
 				className={clsx(
 					positionStyles,
-					'bg-white z-100 flex flex-col gap-4 p-6 rounded-lg max-w-1/2 min-w-1/3'
+					'bg-white z-50 flex flex-col gap-4 p-6 rounded-lg max-w-1/2 min-w-1/3'
 				)}
 			>
 				<IoClose
