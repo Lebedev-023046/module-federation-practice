@@ -46,7 +46,11 @@
     - POSTGRES_DB
     - DATABASE_URL
 
-      2.3
+```bash
+	cd backend/
+	pnpm i
+	docker-compose up --build
+```
 
 3.  Запускаем React remote приложение
 
