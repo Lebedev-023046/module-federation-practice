@@ -32,8 +32,8 @@
 1. Клонируем репозиторий
 
 ```bash
-	git clone <your-repo-url>
-	cd your-project
+	git clone <repo-url>
+	cd project-name
 ```
 
 2.  Запускаем backend
